@@ -1,0 +1,36 @@
+{
+  "name": "@powwow/client",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "serve-client": "serve -p 3000 -s ./dist",
+    "build": "vue-cli-service build --production",
+    "build:dev": "vue-cli-service build --mode=development",
+    "serve:dev": "vue-cli-service serve --mode=development --port=3000"
+  },
+  "engines": {
+    "node": ">= 16.15.1",
+    "npm": "use Yarn instead of Npm",
+    "yarn": ">= 1.22.19"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "vue": "^3.2.13",
+    "serve": "^13.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^13.1.2",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

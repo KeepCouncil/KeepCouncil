@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: ./packages/api/Dockerfile
+    container_name: api
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'powwow'
+    restart: always
+  client:
+    build:
+      context: ./
+      dockerfile: ./packages/client/Dockerfile
+    container_name: client
+    restart: always
+  database:
+    build:
+      context: ./
+      dockerfile: ./packages/database/Dockerfile
+    container_name: database
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'powwow'
+    restart: always
+  proxy:
+    build:
+      context: ./
+      dockerfile: ./packages/proxy/Dockerfile
+    container_name: proxy
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./packages/proxy:/etc/nginx/conf.d
+
