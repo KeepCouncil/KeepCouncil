@@ -1,11 +1,16 @@
-const express = require('express')
-const app = express()
-const port = 3001
+import Log from './utils/log.utils'
+import app from './app'
+const PORT = process.env.PORT || 3001
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+process.on('uncaughtException', (err: Error) => {
+  Log.fatal('Uncaught exception', err)
+  throw err
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+process.on('unhandledRejection', (err: Error) => {
+  Log.fatal('Unhandled rejection', err)
+})
+
+app.listen(PORT, () => {
+  Log.info(`API is listening on port ${PORT}`)
 })
