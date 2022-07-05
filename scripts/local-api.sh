@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-cd packages/api && yarn --immutable && yarn serve:dev
+yarn --cwd ./packages/api run install --immutable &&
+yarn --cwd ./packages/api run serve:dev

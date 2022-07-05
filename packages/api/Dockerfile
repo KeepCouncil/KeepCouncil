@@ -23,4 +23,4 @@ COPY --from=BUILD_IMAGE /usr/src/app/api/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/api/node_modules ./node_modules
 # 'Expose' here is for documentation, has no functional effect
 EXPOSE 3001
-CMD ["./wait-for-it.sh", "database:5432", "--strict", "--timeout=0", "--", "node", "./dist/index.js"]
+CMD ["./wait-for-it.sh", "database:5432", "--strict", "--timeout=300", "--", "node", "./dist/index.js"]

@@ -5,41 +5,31 @@ services:
     build:
       context: ./
       dockerfile: ./packages/api/Dockerfile
-    container_name: api
+    container_name: local-api
     env_file:
-      - .env
+      - .env.development
     restart: always
+    ports:
+      - '3001:3001'
   client:
     build:
       context: ./
       dockerfile: ./packages/client/Dockerfile
-    container_name: client
+    container_name: local-client
     env_file:
-      - .env
+      - .env.development
     restart: always
+    ports:
+      - '3000:3000'
   database:
     build:
       context: ./
       dockerfile: ./packages/database/Dockerfile
-    container_name: database
+    container_name: local-database
     env_file:
-      - .env
+      - .env.development
     restart: always
     volumes:
       - ./db-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-  proxy:
-    build:
-      context: ./
-      dockerfile: ./packages/proxy/Dockerfile
-    container_name: proxy
-    env_file:
-      - .env
-    ports:
-      - 80:80
-      - 443:443
-    restart: always
-    volumes:
-      - ./packages/proxy:/etc/nginx/conf.d
-

@@ -24,4 +24,4 @@ COPY --from=BUILD_IMAGE /usr/src/app/client/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/client/node_modules ./node_modules
 # 'Expose' here is for documentation, has no functional effect
 EXPOSE 3000
-CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "serve-client"]
+CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=300", "--", "yarn", "serve-client"]
