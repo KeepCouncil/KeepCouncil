@@ -1,0 +1,31 @@
+version: "3.7"
+
+networks:
+  testnetwork:
+    driver: bridge
+    name: testnetwork
+
+services:
+  api_test:
+    build:
+      context: ./
+      dockerfile: ./packages/api/Dockerfile
+      args:
+        - INT_DATABASE_URL=${INT_DATABASE_URL}
+      target: 'test'
+    container_name: api_test
+    networks:
+      - testnetwork
+    depends_on:
+      - database_test
+  database_test:
+    build:
+      context: ./
+      dockerfile: ./packages/database/Dockerfile
+      args:
+        - POSTGRES_USER=${INT_POSTGRES_USER}
+        - POSTGRES_PASSWORD=${INT_POSTGRES_PASSWORD}
+        - POSTGRES_DB=${INT_POSTGRES_DB}
+    container_name: database_test
+    networks:
+      - testnetwork

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-yarn --cwd ./packages/api run test
+docker-compose -f docker-compose.test.yml up

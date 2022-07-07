@@ -2,26 +2,28 @@
 # 
 # 
 # Base Image
-FROM node:16.15.1-alpine3.16 AS BUILD_IMAGE
+FROM node:16.15.1-alpine3.16 AS basebuild
 WORKDIR /usr/src/app/client
-COPY ./packages/client/package.json ./packages/client/yarn.lock ./
-# Install with devDependencies but as frozen-lockfile/immutable for CI reliability
-RUN yarn --immutable
-COPY ./packages/client/ .
-# Build using devDependencies
-RUN yarn build
-# Rerunning install with only --production will remove devDeps from docker image size in next step
-RUN yarn install --production --immutable
+HEALTHCHECK --interval=10s --start-period=10s --timeout=4s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://0.0.0.0:3000/ || exit 1
 
-FROM node:16.15.1-alpine3.16
-WORKDIR /usr/src/app/client
+FROM basebuild as development
+ENV NODE_ENV development
 # Need bash to run wait-for-it.sh healthcheck
 RUN apk update && apk add bash && rm -rf /var/cache/apk/*
-# Copy only what we need from above into our runtime docker image, to reduce size
-COPY --from=BUILD_IMAGE /usr/src/app/client/wait-for-it.sh ./
-COPY --from=BUILD_IMAGE /usr/src/app/client/package.json ./
-COPY --from=BUILD_IMAGE /usr/src/app/client/dist ./dist
-COPY --from=BUILD_IMAGE /usr/src/app/client/node_modules ./node_modules
-# 'Expose' here is for documentation, has no functional effect
+COPY ./packages/client/package.json ./packages/client/yarn.lock ./
+RUN yarn install --immutable
+COPY ./packages/client/ .
+RUN yarn build-dev
+CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "serve-dev"]
 EXPOSE 3000
-CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=300", "--", "yarn", "serve-client"]
+
+FROM basebuild as production
+ENV NODE_ENV production
+# Need bash to run wait-for-it.sh healthcheck
+RUN apk update && apk add bash && rm -rf /var/cache/apk/*
+RUN yarn install --production --immutable
+COPY ./packages/client/ .
+RUN yarn build
+CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "serve"]
+EXPOSE 3000

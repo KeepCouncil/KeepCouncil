@@ -3,33 +3,28 @@ version: "3.7"
 services:
   api:
     build:
-      context: ./
-      dockerfile: ./packages/api/Dockerfile
-    container_name: local-api
-    env_file:
-      - .env.development
-    restart: always
+      args:
+        - DEV_DATABASE_URL=${DEV_DATABASE_URL}
+      target: 'development'
+    volumes:
+      - ./packages/api/src:/usr/src/app/api/src
+      - ./packages/api/knexfile.js:/usr/src/app/api/knexfile.js
+      - ./packages/api/migrations:/usr/src/app/api/migrations
     ports:
       - '3001:3001'
   client:
     build:
-      context: ./
-      dockerfile: ./packages/client/Dockerfile
-    container_name: local-client
-    env_file:
-      - .env.development
-    restart: always
+      target: 'development'
+    volumes:
+      - ./packages/client/src:/usr/src/app/client/src
     ports:
       - '3000:3000'
+    command: sh -c "./wait-for-it.sh api:3001 --strict --timeout=0 -- yarn serve-dev"
   database:
     build:
-      context: ./
-      dockerfile: ./packages/database/Dockerfile
-    container_name: local-database
-    env_file:
-      - .env.development
-    restart: always
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
+      args:
+        - POSTGRES_USER=${DEV_POSTGRES_USER}
+        - POSTGRES_PASSWORD=${DEV_POSTGRES_PASSWORD}
+        - POSTGRES_DB=${DEV_POSTGRES_DB}
     ports:
-      - '5432:5432'
+      - '15432:5432'

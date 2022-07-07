@@ -5,7 +5,8 @@
   "main": "./src/index.ts",
   "scripts": {
     "build-api": "ts-node ./build-api.ts",
-    "serve:dev": "nodemon ./dist",
+    "serve": "node ./dist/index.js",
+    "serve-dev": "nodemon ./dist",
     "test": "jest -i"
   },
   "engines": {

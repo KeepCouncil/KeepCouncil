@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "serve-client": "serve -p 3000 -s ./dist",
+    "serve": "serve -p 3000 -s ./dist",
+    "serve-dev": "vue-cli-service serve --mode=development --port=3000",
     "build": "vue-cli-service build --production",
-    "build:dev": "vue-cli-service build --mode=development",
-    "serve:dev": "vue-cli-service serve --mode=development --port=3000"
+    "build-dev": "vue-cli-service build --mode=development"
   },
   "engines": {
     "node": ">= 16.15.1",

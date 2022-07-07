@@ -1,45 +1,43 @@
 version: "3.7"
 
+networks:
+  powwow:
+
 services:
   api:
-    build:
-      context: ./
-      dockerfile: ./packages/api/Dockerfile
+    image: pw-api
     container_name: api
-    env_file:
-      - .env
-    restart: always
+    restart: unless-stopped
+    networks:
+      - powwow
+    depends_on:
+      - database
   client:
-    build:
-      context: ./
-      dockerfile: ./packages/client/Dockerfile
+    image: pw-client
     container_name: client
-    env_file:
-      - .env
-    restart: always
+    restart: unless-stopped
+    networks:
+      - powwow
+    depends_on:
+      - api
   database:
-    build:
-      context: ./
-      dockerfile: ./packages/database/Dockerfile
+    image: pw-database
     container_name: database
-    env_file:
-      - .env
-    restart: always
+    restart: unless-stopped
+    networks:
+      - powwow
     volumes:
       - ./db-data:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - 5432:5432
   proxy:
-    build:
-      context: ./
-      dockerfile: ./packages/proxy/Dockerfile
+    image: pw-proxy
     container_name: proxy
-    env_file:
-      - .env
+    restart: unless-stopped
+    networks:
+      - powwow
+    volumes:
+      - ./packages/proxy:/etc/nginx/conf.d
     ports:
       - 80:80
       - 443:443
-    restart: always
-    volumes:
-      - ./packages/proxy:/etc/nginx/conf.d
-
