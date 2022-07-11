@@ -18,9 +18,10 @@ ENV NODE_ENV development
 ENV DATABASE_URL $DEV_DATABASE_URL
 # Need bash to run wait-for-it.sh healthcheck
 RUN apk update && apk add bash && rm -rf /var/cache/apk/*
-COPY ./packages/api/ .
+COPY ./packages/api/package.json ./packages/api/yarn.lock ./
 RUN yarn install --immutable
-RUN BUILD_MODE=development yarn build-api
+COPY ./packages/api/ .
+RUN yarn build-api
 CMD ["./wait-for-it.sh", "database:5432", "--strict", "--timeout=0", "--", "yarn", "serve-dev"]
 EXPOSE 3001
 
@@ -29,9 +30,10 @@ ENV NODE_ENV test
 ENV DATABASE_URL $INT_DATABASE_URL
 # Need bash to run wait-for-it.sh healthcheck
 RUN apk update && apk add bash && rm -rf /var/cache/apk/*
-COPY ./packages/api/ .
+COPY ./packages/api/package.json ./packages/api/yarn.lock ./
 RUN yarn install --immutable
-RUN BUILD_MODE=production yarn build-api
+COPY ./packages/api/ ./
+RUN yarn build-api
 CMD ["./wait-for-it.sh", "database_test:5432", "--strict", "--timeout=0", "--", "yarn", "test"]
 EXPOSE 3001
 
@@ -40,8 +42,9 @@ ENV NODE_ENV production
 ENV DATABASE_URL $PROD_DATABASE_URL
 # Need bash to run wait-for-it.sh healthcheck
 RUN apk update && apk add bash && rm -rf /var/cache/apk/*
-COPY ./packages/api/ .
+COPY ./packages/api/package.json ./packages/api/yarn.lock ./
 RUN yarn install --production --immutable
-RUN BUILD_MODE=production yarn build-api
+COPY ./packages/api/ ./
+RUN yarn build-api
 CMD ["./wait-for-it.sh", "database:5432", "--strict", "--timeout=0", "--", "yarn", "serve"]
 EXPOSE 3001

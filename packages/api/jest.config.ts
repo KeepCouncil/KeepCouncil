@@ -5,6 +5,8 @@ const config: Config.InitialOptions = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
+  // globalSetup: './tests/globalSetup.ts',
+  // globalTeardown: './tests/globalTeardown.ts',
 }
 
 export default config

@@ -4,6 +4,7 @@
     "target": "es2017",
     "module": "CommonJS",
     "lib": ["ESNext", "dom"],
+    "outDir": "dist",
 
     /* Modules Resolution */
     "moduleResolution": "node",
@@ -18,7 +19,18 @@
     /* Advanced */
     "jsx": "react",
     "experimentalDecorators": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "sourceMap": true,
   },
-  "exclude": ["node_modules", "**/node_modules/*", "build"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    "seeds",
+    "migrations",
+    "tests",
+    "dist"
+  ]
 }

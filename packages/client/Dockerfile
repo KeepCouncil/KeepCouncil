@@ -22,6 +22,7 @@ FROM basebuild as production
 ENV NODE_ENV production
 # Need bash to run wait-for-it.sh healthcheck
 RUN apk update && apk add bash && rm -rf /var/cache/apk/*
+COPY ./packages/client/package.json ./packages/client/yarn.lock ./
 RUN yarn install --production --immutable
 COPY ./packages/client/ .
 RUN yarn build
