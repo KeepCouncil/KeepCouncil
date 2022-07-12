@@ -1,6 +1,5 @@
 # Root
 .gitignore
-.prettierrc
 CHANGELOG.md
 docker-compose.yml
 LICENSE
