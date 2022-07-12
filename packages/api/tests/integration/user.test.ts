@@ -1,4 +1,4 @@
-import { setupTest, apiGet, BASE_URL } from '../testUtils'
+import { setupTest, stripIds,apiGet, apiPost, BASE_URL } from '../testUtils'
 
 describe('user API', () => {
   setupTest(this)
@@ -13,4 +13,12 @@ describe('user API', () => {
     })
   })
 
+  describe('when creating a new user', () => {
+    test('should create a user', async () => {
+      const user = { username: 'Billy Boy', email: 'billyboy@example.com' }
+      await apiPost(BASE_URL, 'users', user)
+      const users = stripIds((await apiGet(BASE_URL, 'users')).data.payload)
+      expect(users.find(u => u.email === user.email)).toStrictEqual(user)
+    })
+  })
 })

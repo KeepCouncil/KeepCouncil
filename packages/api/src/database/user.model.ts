@@ -14,7 +14,11 @@ const getAllUsers = async () => {
   return User.query()
 }
 
-export default {
-  getAllUsers,
+const createNewUser = async (user) => {
+  return User.query().insertAndFetch(user)
 }
 
+export default {
+  getAllUsers,
+  createNewUser,
+}

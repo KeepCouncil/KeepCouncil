@@ -11,9 +11,9 @@ let server
 
 export async function start() {
   try {
-    await Database.Connection.setup()
+    await Database.connection.setup()
   } catch (error) {
-    Log.info('error in dbConnection')
+    Log.info('error in Database connection')
     Log.info(error)
   }
 
@@ -31,7 +31,7 @@ export async function start() {
 
 export async function stop() {
   if (server) {
-    await Database.Connection.shutdown()
+    await Database.connection.shutdown()
     server.close(err => {
       if (['production', 'development'].includes(NODE_ENV)) {
         if (err) {

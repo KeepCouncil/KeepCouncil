@@ -11,8 +11,8 @@ async function setupTest(test: any) {
   })
 
   beforeEach(async () => {
-    await Database.Connection.removeExistingData()
-    await Database.Connection.seed()
+    await Database.connection.removeExistingData()
+    await Database.connection.seed()
   })
 
   afterAll(async () => {
@@ -76,10 +76,21 @@ async function apiDelete(baseUrl: string, path: string, opts: any = {}) {
   return apiRequest('delete', baseUrl, path, opts)
 }
 
+function stripIds(objects: any[]) {
+  return objects.map(stripId)
+}
+
+function stripId(objectToStrip: any) {
+  const { id, ...rest } = objectToStrip
+  return rest
+}
+
 const BASE_URL = `http://0.0.0.0:3001/api/v1/`
 
 export {
   setupTest,
+  stripIds,
   apiGet,
+  apiPost,
   BASE_URL,
 }

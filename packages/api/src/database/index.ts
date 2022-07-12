@@ -1,7 +1,7 @@
-import Connection from './Connection'
-import Bill from './Bill'
+import connection from './connection'
+import Bill from './bill.model'
 
 export default {
-  Connection,
+  connection,
   Bill,
 }

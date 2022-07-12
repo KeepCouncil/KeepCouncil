@@ -1,6 +1,5 @@
 import { Model } from 'objection'
-import { User } from './User'
-// import Log from '../utils/log.utils'
+import { User } from './user.model'
 
 let knex
 const environment = process.env.NODE_ENV || 'development'

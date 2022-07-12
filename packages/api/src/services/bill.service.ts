@@ -1,4 +1,4 @@
-import Bill from '../database/Bill'
+import Bill from '../database/bill.model'
 
 const getAllBills = () => {
   const allBills = Bill.getAllBills()
