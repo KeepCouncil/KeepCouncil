@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import router from '../router'
 import authConfig from '../../auth_config.json'
-import { Auth0Plugin } from './Auth'
+import { useAuth0, getInstance, Auth0Plugin } from './Auth'
+import { authGuard } from './AuthGuard'
 
 // Install the authentication plugin here
 Vue.use(Auth0Plugin, {
@@ -15,3 +16,10 @@ Vue.use(Auth0Plugin, {
     )
   },
 })
+
+export {
+  useAuth0,
+  getInstance,
+  authGuard,
+  Auth0Plugin
+}

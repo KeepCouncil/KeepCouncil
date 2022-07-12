@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import { authGuard } from '../Auth'
 import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -20,11 +21,18 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
   },
   {
-    path: '/api-test',
-    name: 'apitest',
+    path: '/public',
+    name: 'public',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/ApiTestView.vue'),
+      import(/* webpackChunkName: "about" */ '../views/PublicView.vue'),
   },
+  {
+    path: '/authorized',
+    name: 'authorized',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/AuthorizedView.vue'),
+    beforeEnter: authGuard
+  }
 ]
 
 const router = new VueRouter({

@@ -1,12 +1,15 @@
 <template>
-  <div class="apitest">
-    <h1>The API Test view</h1>
-    <div
-      v-for="user of users"
-      :key="user.id"
-    >
-      <div>
-        {{ `${user.id}:${user.username},${user.email}` }}
+<div class="public">
+    <h1>Public User view</h1>
+    <div>
+      <h4>Request to unprotected API user resources:</h4>
+      <div
+        v-for="user of users"
+        :key="user.id"
+      >
+        <div>
+          {{ `${user.id}:${user.username},${user.email}` }}
+        </div>
       </div>
     </div>
   </div>
