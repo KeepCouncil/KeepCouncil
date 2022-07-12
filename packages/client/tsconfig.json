@@ -1,24 +1,40 @@
 {
   "compilerOptions": {
-    /* Basic */
-    "target": "es2017",
-    "module": "CommonJS",
-    "lib": ["ESNext", "dom"],
-
-    /* Modules Resolution */
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
     "moduleResolution": "node",
+    "skipLibCheck": true,
     "esModuleInterop": true,
-
-    /* Paths Resolution */
-    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": [
+      "webpack-env"
+    ],
     "paths": {
-      "@powwow/*": ["packages/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
-
-    /* Advanced */
-    "jsx": "react",
-    "experimentalDecorators": true,
-    "resolveJsonModule": true
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
-  "exclude": ["node_modules", "**/node_modules/*", "build"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
