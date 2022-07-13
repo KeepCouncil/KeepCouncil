@@ -3,6 +3,12 @@
 # 
 # Base Image
 FROM node:16.15.1-alpine3.16 AS basebuild
+ARG VUE_APP_AUTH_DOMAIN
+ARG VUE_APP_AUTH_AUDIENCE
+ARG VUE_APP_AUTH_CLIENT_ID
+ENV VUE_APP_AUTH_DOMAIN $VUE_APP_AUTH_DOMAIN
+ENV VUE_APP_AUTH_AUDIENCE $VUE_APP_AUTH_AUDIENCE
+ENV VUE_APP_AUTH_CLIENT_ID $VUE_APP_AUTH_CLIENT_ID
 WORKDIR /usr/src/app/client
 HEALTHCHECK --interval=10s --start-period=10s --timeout=4s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://0.0.0.0:3000/ || exit 1

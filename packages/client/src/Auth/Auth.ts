@@ -81,6 +81,7 @@ export const useAuth0 = ({
       },
       /** Logs the user out and removes their session on the authorization server */
       logout(o) {
+        localStorage.clear('access_token')
         return this.auth0Client.logout(o)
       },
     },
@@ -113,6 +114,9 @@ export const useAuth0 = ({
         // Initialize the internal authentication state
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.auth0Client.getUser()
+        if (this.isAuthenticated) {
+          localStorage.setItem('access_token', (await this.getTokenSilently()))
+        }
         this.loading = false
       }
     },

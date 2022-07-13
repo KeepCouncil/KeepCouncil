@@ -7,11 +7,18 @@ services:
       dockerfile: ./packages/api/Dockerfile
       args:
         - PROD_DATABASE_URL=${PROD_DATABASE_URL}
+        - AUTH_DOMAIN=${AUTH_DOMAIN}
+        - AUTH_AUDIENCE=${AUTH_AUDIENCE}
+        - AUTH_CLIENT_ID=${AUTH_CLIENT_ID}
       target: 'production'
   client:
     build:
       context: ./
       dockerfile: ./packages/client/Dockerfile
+      args:
+        - VUE_APP_AUTH_DOMAIN=${VUE_APP_AUTH_DOMAIN}
+        - VUE_APP_AUTH_AUDIENCE=${VUE_APP_AUTH_AUDIENCE}
+        - VUE_APP_AUTH_CLIENT_ID=${VUE_APP_AUTH_CLIENT_ID}
       target: 'production'
   database:
     build:
