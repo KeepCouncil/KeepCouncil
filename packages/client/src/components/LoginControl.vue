@@ -12,7 +12,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          Dropdown
+          Sign In
         </v-btn>
       </template>
       <v-card elevation="2">
@@ -22,7 +22,7 @@
             color="primary"
             @click="$auth.loginWithRedirect"
           >
-            LOGIN
+            SIGN IN WITH EMAIL
           </v-btn>
 
           <v-btn
