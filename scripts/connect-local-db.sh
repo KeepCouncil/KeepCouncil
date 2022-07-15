@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it database psql -U postgres powwow
+docker exec -it database psql -U postgres keepcouncil

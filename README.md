@@ -1,6 +1,6 @@
-:rocket: Powwow
+:rocket: KeepCouncil
 ===========
-Helping meeting minute takers more easily organize information into structured data.
+Keeping up with your local City Council
 
 ### :whale2: Docker Compose :whale2:
 * `docker-compose up`

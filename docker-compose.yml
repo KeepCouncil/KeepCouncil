@@ -1,41 +1,41 @@
 version: "3.7"
 
 networks:
-  powwow:
+  keepcouncil:
 
 services:
   api:
-    image: pw-api
+    image: keepcouncil-api
     container_name: api
     restart: unless-stopped
     networks:
-      - powwow
+      - keepcouncil
     depends_on:
       - database
   client:
-    image: pw-client
+    image: keepcouncil-client
     container_name: client
     restart: unless-stopped
     networks:
-      - powwow
+      - keepcouncil
     depends_on:
       - api
   database:
-    image: pw-database
+    image: keepcouncil-database
     container_name: database
     restart: unless-stopped
     networks:
-      - powwow
+      - keepcouncil
     volumes:
       - ./db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
   proxy:
-    image: pw-proxy
+    image: keepcouncil-proxy
     container_name: proxy
     restart: unless-stopped
     networks:
-      - powwow
+      - keepcouncil
     volumes:
       - ./packages/proxy:/etc/nginx/conf.d
     ports:
