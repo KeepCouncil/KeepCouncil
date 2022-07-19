@@ -9,8 +9,13 @@
         <v-btn
           v-bind="attrs"
           v-on="on"
+          fab
+          small
+          color="accent"
         >
-          My Account
+          <v-icon>
+            mdi-account
+          </v-icon>
         </v-btn>
       </template>
       <v-card elevation="2">

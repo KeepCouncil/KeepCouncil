@@ -1,39 +1,12 @@
 <template>
   <div class="text-center">
-    <v-menu
-      v-model="loginMenu"
-      :close-on-content-click="false"
-      offset-y
+    <v-btn
+      small
+      color="accent"
+      @click="$auth.loginWithRedirect"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Sign In
-        </v-btn>
-      </template>
-      <v-card elevation="2">
-        <v-card-actions>
-          <v-btn
-            depressed
-            color="primary"
-            @click="$auth.loginWithRedirect"
-          >
-            SIGN IN WITH EMAIL
-          </v-btn>
-
-          <v-btn
-            depressed
-            @click="loginMenu = false"
-          >
-            CANCEL
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
+      SIGN IN
+    </v-btn>
   </div>
 </template>
 

@@ -9,7 +9,6 @@ services:
         - PROD_DATABASE_URL=${PROD_DATABASE_URL}
         - AUTH_DOMAIN=${AUTH_DOMAIN}
         - AUTH_AUDIENCE=${AUTH_AUDIENCE}
-        - AUTH_CLIENT_ID=${AUTH_CLIENT_ID}
       target: 'production'
   client:
     build:
