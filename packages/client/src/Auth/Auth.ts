@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import Vue from 'vue'
+import { api, apiUrl } from '../Api'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
 /** Define a default action to perform after authentication */
@@ -46,7 +47,7 @@ export const useAuth0 = ({
           this.popupOpen = false
         }
 
-        this.user = await this.auth0Client.getUser()
+        this.user = await this.getUserWithProfile()
         this.isAuthenticated = true
       },
       /** Handles the callback when logging in using a redirect */
@@ -54,7 +55,7 @@ export const useAuth0 = ({
         this.loading = true
         try {
           await this.auth0Client.handleRedirectCallback()
-          this.user = await this.auth0Client.getUser()
+          this.user = await this.getUserWithProfile()
           this.isAuthenticated = true
         } catch (e) {
           this.error = e
@@ -83,6 +84,23 @@ export const useAuth0 = ({
       logout(o) {
         localStorage.clear('access_token')
         return this.auth0Client.logout(o)
+      },
+      /** Get both the user identity object from Auth0 and also the User Profile from keepcouncil API */
+      async getUserWithProfile() {
+        let profile
+        const user = await this.auth0Client.getUser()
+        if (user) {
+          profile = (await api.get(apiUrl() + `users/${user.sub}`)).data?.payload
+          if (!profile) {
+            profile = (await api.post(apiUrl() + 'users', {
+              username: user.nickname,
+              email: user.email,
+              authId: user.sub,
+              profilePictureUrl: user.picture,
+            })).data?.payload
+          }
+        }
+        return {...user, ...profile}
       },
     },
     /** Use this lifecycle method to instantiate the SDK client */
@@ -113,8 +131,11 @@ export const useAuth0 = ({
       } finally {
         // Initialize the internal authentication state
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
-        this.user = await this.auth0Client.getUser()
+        this.user = await this.getUserWithProfile()
         if (this.isAuthenticated) {
+          // TODO: we do seem to set the token in localStorage but we never
+          // go and GET the access_token after a page refresh and authenticate
+          // and so we are losing our auth session on each page refresh...
           localStorage.setItem('access_token', (await this.getTokenSilently()))
         }
         this.loading = false
