@@ -9,20 +9,23 @@
         <v-btn
           v-bind="attrs"
           v-on="on"
-          fab
-          small
-          color="accent"
+          icon
         >
-          <v-icon>
-            mdi-account
-          </v-icon>
+          <user-avatar-icon
+            :user="$auth.user"
+            small
+          />
         </v-btn>
       </template>
       <v-card elevation="2">
         <v-list>
           <v-list-item>
             <v-list-item-icon>
-              <v-icon>mdi-account-circle</v-icon>
+              <user-avatar-icon
+                :user="$auth.user"
+                small
+                link-to-profile
+              />
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -46,12 +49,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import UserAvatarIcon from './UserAvatarIcon.vue'
 
 export default Vue.extend({
   name: 'LogoutControl',
-  data: () => ({
-    logoutMenu: false
-  }),
+  components: { UserAvatarIcon },
+  data() {
+    return {
+      logoutMenu: false
+    }
+  },
   methods: {
     logoutUser() {
       this.$auth.logout({
