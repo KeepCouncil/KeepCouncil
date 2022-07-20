@@ -1,14 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
 import Vue from 'vue'
 import { api, apiUrl } from '../Api'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
 /** Define a default action to perform after authentication */
-const DEFAULT_REDIRECT_CALLBACK = () =>
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DEFAULT_REDIRECT_CALLBACK = (_o: any) =>
   window.history.replaceState({}, document.title, window.location.pathname)
 
-let instance
+let instance: any
 
 /** Returns the current instance of the SDK */
 export const getInstance = () => instance
@@ -35,7 +35,7 @@ export const useAuth0 = ({
     },
     methods: {
       /** Authenticates the user using a popup window */
-      async loginWithPopup(o) {
+      async loginWithPopup(o: any) {
         this.popupOpen = true
 
         try {
@@ -64,44 +64,58 @@ export const useAuth0 = ({
         }
       },
       /** Authenticates the user using the redirect method */
-      loginWithRedirect(o) {
+      loginWithRedirect(o: any) {
         return this.auth0Client.loginWithRedirect(o)
       },
       /** Returns all the claims present in the ID token */
-      getIdTokenClaims(o) {
+      getIdTokenClaims(o: any) {
         return this.auth0Client.getIdTokenClaims(o)
       },
       /** Returns the access token. If the token is invalid or missing, a new one is retrieved */
-      getTokenSilently(o) {
+      getTokenSilently(o: any) {
         return this.auth0Client.getTokenSilently(o)
       },
       /** Gets the access token using a popup window */
-
-      getTokenWithPopup(o) {
+      getTokenWithPopup(o: any) {
         return this.auth0Client.getTokenWithPopup(o)
       },
       /** Logs the user out and removes their session on the authorization server */
-      logout(o) {
-        localStorage.clear('access_token')
+      logout(o: any) {
         return this.auth0Client.logout(o)
       },
       /** Get both the user identity object from Auth0 and also the User Profile from keepcouncil API */
       async getUserWithProfile() {
         let profile
         const user = await this.auth0Client.getUser()
+
         if (user) {
-          profile = (await api.get(apiUrl() + `users/${user.sub}`)).data?.payload
-          if (!profile) {
-            profile = (await api.post(apiUrl() + 'users', {
-              username: user.nickname,
-              email: user.email,
-              authId: user.sub,
-              profilePictureUrl: user.picture,
-            })).data?.payload
+          profile = (await api.get(
+              apiUrl() + `users/${user.sub}`,
+              await this.axiosConfig()
+            )).data?.payload
+
+            if (!profile) {
+            profile = (await api.post(
+                apiUrl() + 'users',
+                {
+                  username: user.nickname,
+                  email: user.email,
+                  authId: user.sub,
+                  profilePictureUrl: user.picture
+                },
+                await this.axiosConfig()
+              )).data?.payload
           }
         }
         return {...user, ...profile}
       },
+      async axiosConfig() {
+        return {
+          headers: {
+            Authorization: `Bearer ${await this.getTokenSilently()}`
+          }
+        }
+      }
     },
     /** Use this lifecycle method to instantiate the SDK client */
     async created() {
@@ -111,6 +125,7 @@ export const useAuth0 = ({
         client_id: options.clientId,
         audience: options.audience,
         redirect_uri: redirectUri,
+        cacheLocation: 'localstorage',
       })
 
       try {
@@ -132,12 +147,6 @@ export const useAuth0 = ({
         // Initialize the internal authentication state
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.getUserWithProfile()
-        if (this.isAuthenticated) {
-          // TODO: we do seem to set the token in localStorage but we never
-          // go and GET the access_token after a page refresh and authenticate
-          // and so we are losing our auth session on each page refresh...
-          localStorage.setItem('access_token', (await this.getTokenSilently()))
-        }
         this.loading = false
       }
     },
@@ -148,7 +157,7 @@ export const useAuth0 = ({
 
 // Create a simple Vue plugin to expose the wrapper object throughout the application
 export const Auth0Plugin = {
-  install(Vue, options) {
+  install(Vue: any, options: any) {
     Vue.prototype.$auth = useAuth0(options)
   },
 }

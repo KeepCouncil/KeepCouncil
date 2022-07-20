@@ -10,8 +10,12 @@ export function apiUrl() {
 export const api = axios.create({
   baseURL: apiUrl(),
   headers: {
-    Authorization : `Bearer ${localStorage.getItem('access_token')}`
-  }
+    'Content-Type': 'application/json'
+  },
+  transformRequest: [async function (data) {
+    // Do not change data
+    return JSON.stringify(data)
+  }],
 })
 
 export function addApiErrorInterceptors({

@@ -17,6 +17,7 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     semi: ['error', 'never'],
     'comma-dangle': ['error', 'only-multiline'],
-    quotes: ['error', 'single', { 'allowTemplateLiterals': true }]
+    quotes: ['error', 'single', { 'allowTemplateLiterals': true }],
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 }
