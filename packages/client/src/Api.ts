@@ -12,10 +12,6 @@ export const api = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  transformRequest: [async function (data) {
-    // Do not change data
-    return JSON.stringify(data)
-  }],
 })
 
 export function addApiErrorInterceptors({

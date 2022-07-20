@@ -89,10 +89,11 @@ export const useAuth0 = ({
         const user = await this.auth0Client.getUser()
 
         if (user) {
-          profile = (await api.get(
-              apiUrl() + `users/${user.sub}`,
-              await this.axiosConfig()
-            )).data?.payload
+          profile = (await api.get(apiUrl() + `users/${user.sub}`, {
+                headers: {
+                  Authorization: `Bearer ${await this.getTokenSilently()}`
+                }
+              })).data?.payload
 
             if (!profile) {
             profile = (await api.post(
@@ -102,20 +103,16 @@ export const useAuth0 = ({
                   email: user.email,
                   authId: user.sub,
                   profilePictureUrl: user.picture
-                },
-                await this.axiosConfig()
+                }, {
+                  headers: {
+                    Authorization: `Bearer ${await this.getTokenSilently()}`
+                  }
+                }
               )).data?.payload
           }
         }
         return {...user, ...profile}
       },
-      async axiosConfig() {
-        return {
-          headers: {
-            Authorization: `Bearer ${await this.getTokenSilently()}`
-          }
-        }
-      }
     },
     /** Use this lifecycle method to instantiate the SDK client */
     async created() {
