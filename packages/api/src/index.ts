@@ -1,4 +1,4 @@
-import Log from './services/util.service'
+import Log from './common/util'
 import app from './app'
 
 process.on('uncaughtException', (err: Error) => {

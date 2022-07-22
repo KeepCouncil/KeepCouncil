@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { identity } from 'lodash/fp'
-import Log from '../src/services/util.service'
+import Log from '../src/common/util'
 import globalSetup from './globalSetup'
 import globalTeardown from './globalTeardown'
 import Database from '../src/database'

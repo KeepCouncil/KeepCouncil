@@ -72,7 +72,8 @@ export const useAuth0 = ({
         return this.auth0Client.getIdTokenClaims(o)
       },
       /** Returns the access token. If the token is invalid or missing, a new one is retrieved */
-      getTokenSilently(o: any) {
+      async getTokenSilently(o: any) {
+        console.log(await this.auth0Client.getTokenSilently(o))
         return this.auth0Client.getTokenSilently(o)
       },
       /** Gets the access token using a popup window */
@@ -90,27 +91,26 @@ export const useAuth0 = ({
 
         if (user) {
           profile = (await api.get(apiUrl() + `users/${user.sub}`, {
+              headers: {
+                Authorization: `Bearer ${await this.getTokenSilently()}`
+              }
+            })).data?.payload
+
+          if (!profile) {
+            profile = (await api.post(apiUrl() + 'users', {
+                username: user.nickname,
+                email: user.email,
+                authId: user.sub,
+                profilePictureUrl: user.picture
+              }, {
                 headers: {
                   Authorization: `Bearer ${await this.getTokenSilently()}`
                 }
-              })).data?.payload
-
-            if (!profile) {
-            profile = (await api.post(
-                apiUrl() + 'users',
-                {
-                  username: user.nickname,
-                  email: user.email,
-                  authId: user.sub,
-                  profilePictureUrl: user.picture
-                }, {
-                  headers: {
-                    Authorization: `Bearer ${await this.getTokenSilently()}`
-                  }
-                }
-              )).data?.payload
+              }
+            )).data?.payload
           }
         }
+
         return {...user, ...profile}
       },
     },

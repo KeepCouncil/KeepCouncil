@@ -4,13 +4,13 @@ exports.seed = async function(knex) {
       email: 'johndoe@example.com',
       authId: 'auth0|62bmnmbkkljk89a744',
       profilePictureUrl: 'https://pickaface.net/gallery/avatar/Garret22785730d3a8d5525.png',
-      role: 'EDITOR',
+      roles: ['EDITOR'],
     }, {
       username: 'Jane Doe',
       email: 'janedoe@example.com',
       authId: 'auth0|62c343456456hgfjbe89a796',
       profilePictureUrl: 'https://pickaface.net/gallery/avatar/nfox.inc537df2da44c30.png',
-      role: 'MODERATOR',
+      roles: ['EDITOR','MODERATOR'],
     }
   ]
 
@@ -21,6 +21,7 @@ exports.seed = async function(knex) {
       email: user.email,
       authId: user.authId,
       profilePictureUrl: user.profilePictureUrl,
+      roles: user.roles,
     })
     .onConflict('email')
     .ignore()

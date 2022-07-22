@@ -1,10 +1,6 @@
 import { Model } from 'objection'
-
-enum UserRole { 
-  EDITOR = "EDITOR",
-  MODERATOR = "MODERATOR",
-  ADMIN = "ADMIN",
-}
+import { CreateNewUser } from 'src/api/user.api'
+import { ROLE } from 'src/common/constants'
 
 export class User extends Model {
     public static get tableName() {
@@ -16,23 +12,32 @@ export class User extends Model {
     email: string
     authId: string
     profilePictureUrl: string
-    role: UserRole
+    roles: ROLE[]
 }
 
 const getAllUsers = async () => {
   return User.query()
 }
 
-const getSingleUser = async (authId) => {
-  return User.query().findOne({ authId })
+const getOneUser = async (authId: string) => {
+  return User.query()
+    .findOne({ authId })
 }
 
-const createNewUser = async (user) => {
-  return User.query().insertAndFetch(user)
+const createOneUser = async (user: CreateNewUser) => {
+  return User.query()
+    .insertAndFetch(user)
+}
+
+const updateOneUser = async (authId: string, userDataPatch: any) => {
+  return User.query()
+    .findOne({ authId })
+    .updateAndFetch(userDataPatch)
 }
 
 export default {
   getAllUsers,
-  getSingleUser,
-  createNewUser,
+  getOneUser,
+  createOneUser,
+  updateOneUser,
 }
