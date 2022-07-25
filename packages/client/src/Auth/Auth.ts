@@ -1,6 +1,6 @@
 
 import Vue from 'vue'
-import { api, apiUrl } from '../Api'
+import { api, apiUrl, setTokenInAxiosHeader, removeTokenInAxiosHeader } from '../Api'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
 /** Define a default action to perform after authentication */
@@ -73,7 +73,6 @@ export const useAuth0 = ({
       },
       /** Returns the access token. If the token is invalid or missing, a new one is retrieved */
       async getTokenSilently(o: any) {
-        console.log(await this.auth0Client.getTokenSilently(o))
         return this.auth0Client.getTokenSilently(o)
       },
       /** Gets the access token using a popup window */
@@ -82,6 +81,7 @@ export const useAuth0 = ({
       },
       /** Logs the user out and removes their session on the authorization server */
       logout(o: any) {
+        removeTokenInAxiosHeader()
         return this.auth0Client.logout(o)
       },
       /** Get both the user identity object from Auth0 and also the User Profile from keepcouncil API */
@@ -90,9 +90,10 @@ export const useAuth0 = ({
         const user = await this.auth0Client.getUser()
 
         if (user) {
+          const token = await this.getTokenSilently()
           profile = (await api.get(apiUrl() + `users/${user.sub}`, {
               headers: {
-                Authorization: `Bearer ${await this.getTokenSilently()}`
+                Authorization: `Bearer ${token}`
               }
             })).data?.payload
 
@@ -104,11 +105,12 @@ export const useAuth0 = ({
                 profilePictureUrl: user.picture
               }, {
                 headers: {
-                  Authorization: `Bearer ${await this.getTokenSilently()}`
+                  Authorization: `Bearer ${token}`
                 }
               }
             )).data?.payload
           }
+          setTokenInAxiosHeader(token)
         }
 
         return {...user, ...profile}

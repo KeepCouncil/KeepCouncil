@@ -27,6 +27,18 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ '../views/PublicView.vue'),
   },
   {
+    path: '/profile/:id',
+    name: 'profile',
+    component: () =>
+      import(/* webpackChunkName: "profile" */ '../views/ProfileView.vue'),
+  },
+  {
+    path: '/me',
+    name: 'me-profile',
+    component: () =>
+      import(/* webpackChunkName: "profile" */ '../views/MyProfileView.vue'),
+  },
+  {
     path: '/authorized',
     name: 'authorized',
     component: () =>

@@ -14,6 +14,14 @@ export const api = axios.create({
   },
 })
 
+export const setTokenInAxiosHeader = (token: string) => {
+  api.defaults.headers.common['Authorization'] = 'Bearer ' + token
+}
+
+export const removeTokenInAxiosHeader = () => {
+  api.defaults.headers.common['Authorization'] = ''
+}
+
 export function addApiErrorInterceptors({
   onBeginRetry = noop,
   onEndRetry = noop,
