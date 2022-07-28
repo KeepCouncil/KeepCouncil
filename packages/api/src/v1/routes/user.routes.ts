@@ -16,7 +16,6 @@ router.get(
 
 router.get(
   '/:authId',
-  checkJwt,
   celebrate({
     [Segments.PARAMS]: {
       authId: Joi.string().required(),

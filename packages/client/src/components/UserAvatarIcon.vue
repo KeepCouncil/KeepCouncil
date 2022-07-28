@@ -29,6 +29,10 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    large: {
+      type: Boolean,
+      default: false,
+    },
     linkToProfile: {
       type: Boolean,
       default: false,
@@ -43,7 +47,13 @@ export default Vue.extend({
   },
   computed: {
     iconSize() {
-      return this.small ? 24 : 48
+      if (this.small) {
+        return 24
+      } else if (this.large) {
+        return 96
+      } else {
+        return 48
+      }
     },
   },
 })

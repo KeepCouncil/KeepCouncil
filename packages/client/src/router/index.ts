@@ -37,6 +37,7 @@ const routes: Array<RouteConfig> = [
     name: 'me-profile',
     component: () =>
       import(/* webpackChunkName: "profile" */ '../views/MyProfileView.vue'),
+    beforeEnter: authGuard
   },
   {
     path: '/authorized',

@@ -1,23 +1,41 @@
 <template>
   <v-container>
-    <v-row>
-      <div class="text-h6">
-        Profile
-      </div>
-    </v-row>
-    <v-row fill-height>
-      <v-col
-        cols="12"
+    <v-row class="no-gutters my-4 justify-center">
+      <v-skeleton-loader
+        v-if="!profile"
+        width="320"
+        type="card"
+      ></v-skeleton-loader>
+      <v-card
+        v-else
+        elevation="2"
       >
-        <v-sheet
-          color="white"
-          elevation="2"
-          height="100%"
-          width="100%"
-        >
-          <p>{{ JSON.stringify(profile, null, 2) }}</p>
-        </v-sheet>
-      </v-col>
+        <v-card-title class="text-h5">
+          User Information
+        </v-card-title>
+
+        <v-card-text>
+          <user-avatar-icon
+            :user="profile"
+            large
+            class="mb-4"
+          />
+          <v-text-field
+            :value="profile.username"
+            label="Username"
+            readonly
+          />
+          <v-select
+              v-model="roles"
+              :items="roles"
+              attach
+              chips
+              label="Roles"
+              multiple
+              readonly
+          />
+        </v-card-text>
+      </v-card>
     </v-row>
   </v-container>
 </template>
@@ -25,24 +43,25 @@
 <script lang="ts">
 import Vue from 'vue'
 import { api, apiUrl } from '../Api'
+import UserAvatarIcon from '../components/UserAvatarIcon.vue'
 
 export default Vue.extend({
+  components: { UserAvatarIcon },
   name: 'Profile',
   data() {
     return {
-      loading: true,
-      profile: null,
+      profile: null as any,
     }
   },
-  methods: {
-    async getProfile(userId: string) {
-      this.profile = (await api.get(apiUrl() + `users/${userId}`))?.data?.payload
-      this.loading = false
+  computed: {
+    roles() {
+      return this.profile.roles ?? []
     }
   },
-  created() {
+  async created() {
+    // example test@example.com id for testing
     // auth0|62c343456456hgfjbe89a796
-    this.getProfile(this.$route.params.id)
-  }
+    this.profile = (await api.get(apiUrl() + `users/${this.$route.params.id}`))?.data?.payload
+  },
 })
 </script>

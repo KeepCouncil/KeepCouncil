@@ -5,7 +5,7 @@ exports.up = async function(knex) {
       table.string('email').unique().notNullable()
       table.string('authId').unique().notNullable()
       table.string('profilePictureUrl')
-      table.specificType('roles', 'text ARRAY').notNullable().defaultTo('{\'\'EDITOR\'\'}')
+      table.specificType('roles', 'text ARRAY').notNullable().defaultTo('{EDITOR}')
   })
 };
 
