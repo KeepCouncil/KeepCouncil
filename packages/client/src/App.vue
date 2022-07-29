@@ -8,6 +8,27 @@
         <router-view />
       </v-main>
     </v-layout>
+
+    <v-snackbar
+      app
+      :value="snackbar.enabled"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+      bottom
+      right
+    >
+      {{ snackbar.text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="accent"
+          text
+          v-bind="attrs"
+          @click="closeSnackbar"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -15,6 +36,8 @@
 import Vue from 'vue'
 import TopBar from './components/TopBar.vue'
 import AppDrawer from './components/AppDrawer.vue'
+import { mapState } from 'vuex'
+import { CLEAR_ALERT_APP_ACTION } from './store'
 
 export default Vue.extend({
   name: 'App',
@@ -25,6 +48,14 @@ export default Vue.extend({
   data: () => ({
     //
   }),
+  methods: {
+    closeSnackbar() {
+      this.$store.dispatch(CLEAR_ALERT_APP_ACTION)
+    }
+  },
+  computed: {
+    ...mapState(['snackbar']),
+  },
 })
 </script>
 
