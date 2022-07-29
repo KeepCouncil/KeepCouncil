@@ -32,6 +32,7 @@
           v-for="item in items"
           :key="item.title"
           link
+          :to="item.to"
         >
           <v-list-item-icon class="mr-4">
             <v-icon>{{ item.icon }}</v-icon>
@@ -56,9 +57,10 @@ export default Vue.extend({
   data: () => ({
     syncForMini: true,
     items: [
-      { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-      { title: 'Account', icon: 'mdi-account-box' },
-      { title: 'Admin', icon: 'mdi-gavel' },
+      { title: 'Town', icon: 'mdi-home-city', to: '/towns' },
+      { title: 'District', icon: 'mdi-vector-intersection', to: '/districts' },
+      { title: 'Councilor', icon: 'mdi-account-tie-woman', to: '/councilors' },
+      { title: 'Bill', icon: 'mdi-vote', to: '/bills' },
     ],
     DRAWER_CLOSED,
     DRAWER_MINI,
