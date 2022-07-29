@@ -5,6 +5,7 @@
     :class="{'cursor-pointer': linkToProfile}"
   >
     <img v-if="user.profilePictureUrl"
+      :lazy-src="require('../assets/defaultAvatar.svg')"
       :src="user.profilePictureUrl"
       :alt="user.username"
     >
