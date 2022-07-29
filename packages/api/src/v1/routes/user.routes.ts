@@ -5,12 +5,22 @@ import { checkJwt } from '../../common/auth'
 
 const router = express.Router()
 
+const returnResourceNotFound = (res: express.Response, statusMessage: string) => {
+  return res.send({
+      status: statusMessage,
+      payload: undefined
+    })
+    .status(404)
+}
+
 router.get(
   '/',
   checkJwt,
-  async (_, res) => {
+  async (_: express.Request, res: express.Response) => {
     const allUsers = await userApi.getAllUsers()
-    res.send({ status: 'OK', payload: allUsers })
+    return res
+      .send({ status: 'OK', payload: allUsers })
+      .status(200)
   }
 )
 
@@ -21,9 +31,37 @@ router.get(
       authId: Joi.string().required(),
     }
   }),
-  async (req, res) => {
+  async (req: express.Request, res: express.Response) => {
     const user = await userApi.getOneUser(req.params.authId)
-    res.send({ status: 'OK', payload: user })
+    if (user) {
+      return res
+        .send({ status: 'OK', payload: user })
+        .status(200)
+    }
+    return returnResourceNotFound(res, 'UserNotFound')
+  }
+)
+
+router.put(
+  '/:authId',
+  checkJwt,
+  celebrate({
+    [Segments.BODY]: Joi.object().keys({
+      username: Joi.string().required(),
+      profilePictureUrl: Joi.string().optional(),
+    }),
+    [Segments.PARAMS]: {
+      authId: Joi.string().required(),
+    },
+  }),
+  async (req: express.Request, res: express.Response) => {
+    const updatedUser = await userApi.updateOneUser(req.params.authId, req.body)
+    if (updatedUser) {
+      return res
+        .send({ status: 'OK', payload: updatedUser})
+        .status(204)
+    }
+    return returnResourceNotFound(res, 'UserNotUpdated')
   }
 )
 
@@ -38,9 +76,11 @@ router.post(
       profilePictureUrl: Joi.string().optional(),
     })
   }),
-  async (req, res) => {
+  async (req: express.Request, res: express.Response) => {
     const createdUser = await userApi.createOneUser(req.body)
-    res.send({ status: 'OK', payload: createdUser})
+    return res
+      .send({ status: 'OK', payload: createdUser})
+      .status(201)
   }
 )
 

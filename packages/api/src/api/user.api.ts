@@ -1,31 +1,37 @@
-import User from '../database/user.model'
+import UserModel, { User } from '../database/user.model'
 
-export interface CreateNewUser {
+
+export interface UserObject {
   username: string
   email: string
   authId: string
   profilePictureUrl: string | null
 }
 
-const getAllUsers = async () => {
-  return User.getAllUsers()
+export interface UserProfileObject {
+  username: string
+  profilePictureUrl: string | null
 }
 
-const getOneUser = async (authId: string) => {
-  return User.getOneUser(authId)
+const getAllUsers = async (): Promise<User[] | []> => {
+  return UserModel.getAllUsers()
 }
 
-const createOneUser = async (newUser: CreateNewUser) => {
-  return User.createOneUser(newUser)
+const getOneUser = async (authId: string): Promise<User | undefined> => {
+  return UserModel.getOneUser(authId)
 }
 
-const updateRoles = async (userId, roles) => {
-  return User.updateOneUser(userId, roles)
+const createOneUser = async (newUser: UserObject): Promise<User> => {
+  return UserModel.createOneUser(newUser)
+}
+
+const updateOneUser = async (userAuthId: string, userData: UserProfileObject): Promise<User | undefined> => {
+  return UserModel.updateOneUser(userAuthId, userData)
 }
 
 export default {
   getAllUsers,
   getOneUser,
   createOneUser,
-  updateRoles,
+  updateOneUser,
 }

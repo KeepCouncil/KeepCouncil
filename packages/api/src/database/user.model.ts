@@ -1,5 +1,5 @@
 import { Model } from 'objection'
-import { CreateNewUser } from 'src/api/user.api'
+import { UserProfileObject, UserObject } from 'src/api/user.api'
 import { ROLE } from 'src/common/constants'
 
 export class User extends Model {
@@ -15,24 +15,23 @@ export class User extends Model {
     roles: ROLE[]
 }
 
-const getAllUsers = async () => {
+const getAllUsers = async (): Promise<User[] | []> => {
   return User.query()
 }
 
-const getOneUser = async (authId: string) => {
+const getOneUser = async (authId: string): Promise<User | undefined> => {
   return User.query()
     .findOne({ authId })
 }
 
-const createOneUser = async (user: CreateNewUser) => {
+const createOneUser = async (user: UserObject): Promise<User> => {
   return User.query()
     .insertAndFetch(user)
 }
 
-const updateOneUser = async (authId: string, userDataPatch: any) => {
-  return User.query()
-    .findOne({ authId })
-    .updateAndFetch(userDataPatch)
+const updateOneUser = async (authId: string, userData: UserProfileObject): Promise<User | undefined> => {
+  const user: User = await User.query().findOne({ authId })
+  return user?.$query().updateAndFetch({...user, ...userData})
 }
 
 export default {
