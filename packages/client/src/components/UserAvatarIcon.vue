@@ -2,6 +2,7 @@
   <v-avatar
     :size="iconSize"
     @click="avatarClicked"
+    :class="{'cursor-pointer': linkToProfile}"
   >
     <img v-if="user.profilePictureUrl"
       :src="user.profilePictureUrl"
@@ -41,7 +42,12 @@ export default Vue.extend({
   methods: {
     avatarClicked() {
       if (this.linkToProfile) {
+        if (this.$auth?.user && this.$auth.user.sub === this.user.authId) {
+          this.$router.push(`/me`)
+          return
+        }
         this.$router.push(`/profile/${this.user.id}`)
+        return
       }
     }
   },

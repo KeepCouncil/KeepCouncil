@@ -14,5 +14,9 @@ body {
       background-color: $color-white;
       color: $color-accent;
     }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
   }
 }

@@ -11,7 +11,10 @@
       color="accent"
     >
       <v-list class="py-0">
-        <v-list-item>
+        <v-list-item
+          to="/"
+          :ripple="false"
+        >
           <v-list-item-icon class="mr-4">
             <v-img
               alt="KeepCouncil Logo"
