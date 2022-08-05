@@ -1,5 +1,8 @@
 import { Model } from 'objection'
 import { User } from './user.model'
+import { State } from './state.model'
+import { TownAlias } from './townAlias.model'
+import { Town } from './town.model'
 
 let knex
 const environment = process.env.NODE_ENV || 'development'
@@ -24,12 +27,15 @@ async function seed() {
 
 async function truncateTable(tableName?: string) {
     if (tableName) {
-        await knex.raw('truncate table "' + tableName + '"')
+        await knex.raw('truncate table "' + tableName + '" RESTART IDENTITY CASCADE')
     }
 }
 
 const dataModels: any[] = [
   User,
+  State,
+  Town,
+  TownAlias,
 ]
 
 async function removeExistingData() {

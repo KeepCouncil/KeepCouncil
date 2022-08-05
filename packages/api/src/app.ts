@@ -4,6 +4,7 @@ import cors from 'cors'
 import Database from './database'
 import Log from './common/util'
 import v1UserRouter from './v1/routes/user.routes'
+import v1TownRouter from './v1/routes/town.routes'
 import v1HealthcheckRouter from './v1/routes/healthcheck.routes'
 import './common/auth'
 const PORT = process.env.PORT || 3001
@@ -24,6 +25,7 @@ export async function start() {
   app.use(bodyParser.json())
   app.use(express.urlencoded({ extended: true }))
   app.use('/api/v1/users', v1UserRouter)
+  app.use('/api/v1/towns', v1TownRouter)
   app.use('/api/v1/healthcheck', v1HealthcheckRouter)
 
   server = app.listen(PORT, () => {

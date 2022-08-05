@@ -12,6 +12,7 @@ LICENSE
 .DS_Store
 .env
 .env.sample
+.idea
 
 npm-debug.log*
 yarn-debug.log*

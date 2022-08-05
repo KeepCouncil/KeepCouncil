@@ -29,6 +29,11 @@ function fatal(msg, errorObject?) {
   }
 }
 
+export function stripId(objectToStrip: any) {
+  const { id, ...rest } = objectToStrip
+  return rest
+}
+
 export default {
   info,
   warning,
