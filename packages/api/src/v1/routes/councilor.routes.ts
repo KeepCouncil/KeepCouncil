@@ -1,6 +1,6 @@
 import express from 'express'
 import { celebrate, Joi, Segments } from 'celebrate'
-import townApi from '../../api/town.api'
+import councilorApi from '../../api/councilor.api'
 
 const router = express.Router()
 
@@ -15,28 +15,28 @@ const returnResourceNotFound = (res: express.Response, statusMessage: string) =>
 router.get(
   '/',
   async (_: express.Request, res: express.Response) => {
-    const allTowns = await townApi.getAllTowns()
+    const allCouncilors = await councilorApi.getAllCouncilors()
     return res
-      .send({ status: 'OK', payload: allTowns })
+      .send({ status: 'OK', payload: allCouncilors })
       .status(200)
   }
 )
 
 router.get(
-  '/:townId',
+  '/:councilorId',
   celebrate({
     [Segments.PARAMS]: {
-      townId: Joi.number().required(),
+      councilorId: Joi.number().required(),
     }
   }),
   async (req: express.Request, res: express.Response) => {
-    const town = await townApi.getOneTown(parseInt(req.params.townId, 10))
-    if (town) {
+    const councilor = await councilorApi.getOneCouncilor(parseInt(req.params.councilorId, 10))
+    if (councilor) {
       return res
-        .send({ status: 'OK', payload: town })
+        .send({ status: 'OK', payload: councilor })
         .status(200)
     }
-    return returnResourceNotFound(res, 'TownNotFound')
+    return returnResourceNotFound(res, 'CouncilorNotFound')
   }
 )
 

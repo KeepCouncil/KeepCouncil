@@ -5,6 +5,8 @@ import { TownAlias } from './townAlias.model'
 import { Town } from './town.model'
 import { District } from './district.model'
 import { DistrictAlias } from './districtAlias.model'
+import { Term } from './term.model'
+import { Councilor } from './councilor.model'
 
 let knex
 const environment = process.env.NODE_ENV || 'development'
@@ -40,6 +42,8 @@ const dataModels: any[] = [
   TownAlias,
   District,
   DistrictAlias,
+  Term,
+  Councilor,
 ]
 
 async function removeExistingData() {

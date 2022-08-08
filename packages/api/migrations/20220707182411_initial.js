@@ -52,6 +52,34 @@ exports.up = async function(knex) {
     table.integer('districtId').notNullable()
     table.unique(['name', 'districtId'])
   })
+
+  await knex.schema.createTable('terms', function (table) {
+    table.timestamps(true, true, true)
+    table.increments('id').primary()
+    table.timestamp('start').notNullable()
+    table.timestamp('end').notNullable()
+    table.integer('councilorId').notNullable()
+    table.integer('townId').notNullable()
+    table.integer('districtId').notNullable()
+    table.unique(['start', 'end', 'councilorId', 'townId', 'districtId'])
+  })
+
+  await knex.schema.createTable('councilors', function (table) {
+    table.timestamps(true, true, true)
+    table.increments('id').primary()
+    table.string('name').notNullable()
+    table.string('publicEmail').notNullable()
+    table.string('publicPhone')
+    table.string('publicFax')
+    table.string('publicAddressStreet')
+    table.string('publicAddressCity')
+    table.string('publicAddressState')
+    table.string('publicAddressZip')
+    table.text('biography')
+    table.string('imageUrl')
+    table.string('website')
+    table.unique(['name', 'publicEmail'])
+  })
 };
 
 exports.down = function(knex) {

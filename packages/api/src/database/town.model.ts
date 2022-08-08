@@ -54,7 +54,7 @@ const getAllTowns = async (): Promise<DisplayTown[] | []> => {
   return towns.map(toDisplayTown)
 }
 
-const getOneTown = async (townId: string): Promise<DisplayTown | undefined> => {
+const getOneTown = async (townId: number): Promise<DisplayTown | undefined> => {
   const fullTown = await Town.query().findById(townId).withGraphFetched('[aliases, districts.[aliases], state]')
   return toDisplayTown(fullTown)
 }

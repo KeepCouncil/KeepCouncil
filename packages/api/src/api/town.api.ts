@@ -25,7 +25,7 @@ const getAllTowns = async (): Promise<DisplayTown[] | []> => {
   return TownModel.getAllTowns()
 }
 
-const getOneTown = async (townId: string): Promise<DisplayTown | undefined> => {
+const getOneTown = async (townId: number): Promise<DisplayTown | undefined> => {
     return TownModel.getOneTown(townId)
 }
 

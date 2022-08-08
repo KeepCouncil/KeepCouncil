@@ -144,4 +144,155 @@ exports.seed = async function(knex) {
     .onConflict(['name', 'districtId'])
     .ignore()
   }
+
+  const councilors = [
+    {
+      name: 'Andrew Harris',
+      publicPhone: '3142469150',
+      publicEmail: 'ward1@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1528214731_94579_o.jpg',
+    },
+    {
+      name: 'Paul Manganelli',
+      publicPhone: '3146066578',
+      publicEmail: 'ward2@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1580506340_89405_o.jpg',
+    },
+    {
+      name: 'Joseph Eagan',
+      publicPhone: '3143956838',
+      publicEmail: 'ward3@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1374118529_77162_o.jpg',
+    },
+    {
+      name: 'Jeff Caputa',
+      publicPhone: '3142391568',
+      publicEmail: 'ward4@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1374118528_70746_o.jpg',
+    },
+    {
+      name: 'Keith Schildroth',
+      publicPhone: '3148392927',
+      publicEmail: 'ward5@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1646143820_77501.png',
+    },
+    {
+      name: 'Patrick Mulcahy',
+      publicPhone: '3146061991',
+      publicEmail: 'ward6@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1600958835_79585_o.jpg',
+    },
+    {
+      name: 'Jackie Pagano',
+      publicPhone: '3148371315',
+      publicEmail: 'ward7@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1374118534_00003_o.jpg',
+    },
+    {
+      name: 'Robert Parson Jr',
+      publicPhone: '3144222050',
+      publicEmail: 'ward8@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1503671967_49692_o.jpg',
+    },
+    {
+      name: 'Tommy Siam',
+      publicPhone: '3147572594',
+      publicEmail: 'ward9@florissantmo.com',
+      imageUrl: 'https://www.florissantmo.com/egov/images/1430163995_87574_o.jpg',
+    },
+  ]
+
+  for (const councilor of councilors) {
+    await knex('councilors')
+    .insert({
+      name: councilor.name,
+      publicEmail: councilor.publicEmail,
+      publicPhone: councilor.publicPhone,
+    })
+    .onConflict(['name', 'publicEmail'])
+    .ignore()
+  }
+
+  const TermDate1 = new Date(2022, 6, 8)
+  const TermDate2 = new Date(2024, 6, 8)
+  const TermDate3 = new Date(2026, 6, 8)
+
+  const terms = [
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 1,
+      townId: 1,
+      districtId: 1,
+    },
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 2,
+      townId: 1,
+      districtId: 2,
+    },
+    {
+      start: TermDate2,
+      end: TermDate3,
+      councilorId: 3,
+      townId: 1,
+      districtId: 3,
+    },
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 4,
+      townId: 1,
+      districtId: 4,
+    },
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 5,
+      townId: 1,
+      districtId: 5,
+    },
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 6,
+      townId: 1,
+      districtId: 6,
+    },
+    {
+      start: TermDate2,
+      end: TermDate3,
+      councilorId: 7,
+      townId: 1,
+      districtId: 7,
+    },
+    {
+      start: TermDate2,
+      end: TermDate3,
+      councilorId: 8,
+      townId: 1,
+      districtId: 8,
+    },
+    {
+      start: TermDate1,
+      end: TermDate2,
+      councilorId: 9,
+      townId: 1,
+      districtId: 9,
+    },
+  ]
+
+  for (const term of terms) {
+    await knex('terms')
+    .insert({
+      start: term.start,
+      end: term.end,
+      councilorId: term.councilorId,
+      townId: term.townId,
+      districtId: term.districtId,
+    })
+    .onConflict(['start', 'end', 'councilorId', 'townId', 'districtId'])
+    .ignore()
+  }
 }
