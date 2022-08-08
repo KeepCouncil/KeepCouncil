@@ -75,4 +75,73 @@ exports.seed = async function(knex) {
     .onConflict(['name', 'townId'])
     .ignore()
   }
+
+  const districts = [{
+    name: '1',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '2',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '3',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '4',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '5',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '6',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '7',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '8',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }, {
+    name: '9',
+    townId: 1, // florissant
+    imageUrl: 'https://i.imgur.com/s584tBa.png',
+  }]
+
+  for (const district of districts) {
+    await knex('districts')
+    .insert({
+      name: district.name,
+      imageUrl: district.imageUrl,
+      mapLink: district.mapLink,
+      townId: district.townId,
+    })
+    .onConflict(['name', 'townId'])
+    .ignore()
+  }
+
+  const districtAliases = [{
+      name: 'Ward 1',
+      districtId: 1 // Flo district 1
+    }, {
+      name: 'Ward 2',
+      districtId: 2 // Flo district 2
+    },
+  ]
+
+  for (const da of districtAliases) {
+    await knex('districtAliases')
+    .insert({
+      name: da.name,
+      districtId: da.districtId,
+    })
+    .onConflict(['name', 'districtId'])
+    .ignore()
+  }
 }

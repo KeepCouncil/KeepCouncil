@@ -30,6 +30,22 @@ exports.up = async function(knex) {
     table.integer('townId').notNullable()
     table.unique(['name', 'townId'])
   })
+
+  await knex.schema.createTable('districts', function (table) {
+    table.increments('id').primary()
+    table.string('name').notNullable()
+    table.integer('townId').notNullable()
+    table.string('imageUrl')
+    table.string('mapLink')
+    table.unique(['name', 'townId'])
+  })
+
+  await knex.schema.createTable('districtAliases', function (table) {
+    table.increments('id').primary()
+    table.string('name').notNullable()
+    table.integer('districtId').notNullable()
+    table.unique(['name', 'districtId'])
+  })
 };
 
 exports.down = function(knex) {

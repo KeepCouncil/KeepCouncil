@@ -5,12 +5,12 @@ export interface UserObject {
   username: string
   email: string
   authId: string
-  profilePictureUrl: string | null
+  profilePictureUrl?: string
 }
 
 export interface UserProfileObject {
   username: string
-  profilePictureUrl: string | null
+  profilePictureUrl?: string
 }
 
 const getAllUsers = async (): Promise<User[] | []> => {

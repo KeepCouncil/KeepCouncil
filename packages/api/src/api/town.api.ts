@@ -1,20 +1,24 @@
+import { District } from 'src/database/district.model'
+import { State } from 'src/database/state.model'
+import { TownAlias } from 'src/database/townAlias.model'
 import TownModel, { Town } from '../database/town.model'
 
 export interface TownObject {
   name: string
   stateId: number
-  imageUrl: string | null
-  mapLink: string | null
-  profilePictureUrl: string | null
+  imageUrl?: string
+  mapLink?: string
+  profilePictureUrl?: string
 }
 
 export interface DisplayTown {
   id: number
   name: string
-  aliases: string[]
-  state: object
-  imageUrl: string
-  mapLink: string
+  aliases: TownAlias[]
+  districts: District[]
+  state: State
+  imageUrl?: string
+  mapLink?: string
 }
 
 const getAllTowns = async (): Promise<DisplayTown[] | []> => {
