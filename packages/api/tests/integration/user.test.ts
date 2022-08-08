@@ -23,7 +23,7 @@ describe('user API', () => {
       }
       await apiPost(BASE_URL, 'users', user)
       const users = stripIds((await apiGet(BASE_URL, 'users')).data.payload)
-      expect(users.find(u => u.email === user.email)).toStrictEqual({...user, roles: ['EDITOR']})
+      expect(users.find(u => u.email === user.email)).toMatchObject({...user, roles: ['EDITOR']})
     })
 
     test('should return new user from user create', async () => {
@@ -34,7 +34,7 @@ describe('user API', () => {
         profilePictureUrl: 'https://pickaface.net/gallery/avatar/nfox.inc537df2da44c30.png',
       }
       const createUserResponsePayload = stripId((await apiPost(BASE_URL, 'users', billy)).data.payload)
-      expect(createUserResponsePayload).toStrictEqual({...billy, roles: ['EDITOR']})
+      expect(createUserResponsePayload).toMatchObject({...billy, roles: ['EDITOR']})
     })
 
     test('should get a single user by authId', async () => {
@@ -47,7 +47,7 @@ describe('user API', () => {
       }
       await apiPost(BASE_URL, 'users', billy)
       const user = stripId((await apiGet(BASE_URL, `users/${authId}`)).data.payload)
-      expect(user).toStrictEqual({...billy, roles: ['EDITOR']})
+      expect(user).toMatchObject({...billy, roles: ['EDITOR']})
     })
   })
 })

@@ -11,7 +11,7 @@ describe('town API', () => {
     })
 
     test('should return florissant as default data', async () => {
-      expect(initialTown).toStrictEqual({
+      expect(initialTown).toMatchObject({
         id: 1,
         name: 'City of Florissant',
         aliases: [
