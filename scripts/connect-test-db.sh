@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it database_test psql -U postgres keepcouncil
+docker exec -it database-test psql -U postgres keepcouncil
