@@ -20,8 +20,8 @@ RUN apk update && apk add bash && rm -rf /var/cache/apk/*
 COPY ./packages/client/package.json ./packages/client/yarn.lock ./
 RUN yarn install --immutable
 COPY ./packages/client/ .
-RUN yarn build
-CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "dev"]
+RUN yarn build-dev
+CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "serve-dev"]
 EXPOSE 3000
 
 FROM basebuild as production
@@ -31,6 +31,6 @@ RUN apk update && apk add bash && rm -rf /var/cache/apk/*
 COPY ./packages/client/package.json ./packages/client/yarn.lock ./
 RUN yarn install --production --immutable
 COPY ./packages/client/ .
-RUN yarn generate
+RUN yarn build
 CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "serve"]
 EXPOSE 3000

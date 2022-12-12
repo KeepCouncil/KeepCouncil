@@ -19,7 +19,7 @@ services:
       - ./packages/client/src:/usr/src/app/client/src
     ports:
       - '3000:3000'
-    command: sh -c "./wait-for-it.sh api:3001 --strict --timeout=0 -- yarn serve-dev"
+    command: sh -c "./wait-for-it.sh api:3001 --strict --timeout=0 -- yarn dev"
   database:
     build:
       args:

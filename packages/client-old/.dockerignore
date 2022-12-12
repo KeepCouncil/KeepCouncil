@@ -1,0 +1,18 @@
+# Root
+.gitignore
+CHANGELOG.md
+docker-compose.yml
+LICENSE
+README.md
+
+# Logs
+yarn-error.log
+
+# Dependencies
+**/node_modules
+**/dist
+
+# Client
+**/public/assets
+**/public/script.css
+**/public/script.js
