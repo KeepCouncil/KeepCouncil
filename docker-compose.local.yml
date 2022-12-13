@@ -16,9 +16,10 @@ services:
     build:
       target: 'development'
     volumes:
-      - ./packages/client/src:/usr/src/app/client/src
+      - ./packages/client:/usr/src/app/client
     ports:
       - '3000:3000'
+      - '24678:24678'
     command: sh -c "./wait-for-it.sh api:3001 --strict --timeout=0 -- yarn dev"
   database:
     build:

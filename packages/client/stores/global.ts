@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 
-export const DRAWER_CLOSED = 'DRAWER_CLOSED'
-export const DRAWER_OPEN = 'DRAWER_OPEN'
+export const DRAWER_CLOSED = false
+export const DRAWER_OPEN = true
 
 export const useGlobalStore = defineStore({
   id: 'global',
   state: () => ({
-    appDrawer: DRAWER_OPEN,
+    appDrawer: DRAWER_CLOSED,
   }),
   getters: {},
   actions: {

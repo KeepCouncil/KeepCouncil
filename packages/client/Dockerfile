@@ -20,9 +20,8 @@ RUN apk update && apk add bash && rm -rf /var/cache/apk/*
 COPY ./packages/client/package.json ./packages/client/yarn.lock ./
 RUN yarn install --immutable
 COPY ./packages/client/ .
-RUN yarn build
 CMD ["./wait-for-it.sh", "api:3001", "--strict", "--timeout=0", "--", "yarn", "dev"]
-EXPOSE 3000
+EXPOSE 3000 24678
 
 FROM basebuild as production
 ENV NODE_ENV production
