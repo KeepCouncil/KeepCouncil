@@ -1,3 +1,5 @@
 <template>
-  <div>This is the index page.</div>
+  <VContainer>
+    <VBtn>Testing</VBtn>
+  </VContainer>
 </template>
